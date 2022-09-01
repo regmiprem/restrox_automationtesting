@@ -5,6 +5,6 @@ Feature: Department Handling
   So that - - - - - 
 
   Scenario: Add a new department
-    Given the user has logged in
-    When the user creates a department 'finance'
-    Then a new department called 'finance' should be created
+    Given the user has logged in as 'Prem Regmi'
+    When the user selects the menu 'Department'
+    Then the 'Department' section should appear

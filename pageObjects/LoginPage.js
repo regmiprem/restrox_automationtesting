@@ -11,7 +11,7 @@ class LoginPage {
         this.passwordFieldSelector = ".form-control[name='password']";
 
         // x-path selector to select the user with username Prem Regmi
-        this.demoaccountUsernameSelector = "//h5[text()='%s']";
+        this.demoAccountUsernameSelector = "//h5[text()='%s']";
     }
 
     // preview the login page
@@ -43,9 +43,9 @@ class LoginPage {
      * @param {string} username - username of the demo user (eg: `Prem Regmi`)
      */
     async loginWithDemoUser(userName) {
-        await page.click(this.demoUserLinkSelector);
+        await page.locator(this.demoUserLinkSelector).click();
         const demoAccountSelector = util.format(
-            this.demoUserSelector,
+            this.demoAccountUsernameSelector,
             userName
         );
         await page.waitForSelector(demoAccountSelector);
