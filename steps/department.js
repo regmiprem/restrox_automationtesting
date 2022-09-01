@@ -2,10 +2,10 @@ const assert = require("assert");
 const { Given, When, Then } = require("@cucumber/cucumber");
 
 const LoginPage = require("../pageObjects/LoginPage");
-const DashboardPage = require("../pageObjects/DashboardPage");
+const DepartmentPage = require("../pageObjects/DepartmentPage");
 
 const loginPage = new LoginPage();
-const dashboardPage = new DashboardPage();
+const departmentPage = new DepartmentPage();
 
 Given("the user has logged in as {string}", async function (userName) {
     await loginPage.viewPage();
@@ -13,12 +13,20 @@ Given("the user has logged in as {string}", async function (userName) {
 });
 
 When("the user selects the menu {string}", async function (menuName) {
-    await dashboardPage.clickOnMenu(menuName.trim());
+    await departmentPage.clickOnMenu(menuName.trim());
 });
 
-When("the user creates a department {string}", function (string) {
-    // Write code here that turns the phrase above into concrete actions
-});
+When(
+    "the user creates a new department with name {string} and description {string}",
+    async function (departmentName, departmentDescription) {
+        await departmentPage.clickOnCreateDepartmentBtn();
+        await departmentPage.fillDepartmentDetails(
+            departmentName.trim(),
+            departmentDescription.trim()
+        );
+        await departmentPage.clickOnSaveDepartmentBtn();
+    }
+);
 
 Then("a new department called {string} should be created", function (string) {
     // Write code here that turns the phrase above into concrete actions
@@ -34,3 +42,17 @@ Then("the {string} section should appear", async function (sectionName) {
         `${sectionName} section is not loaded`
     );
 });
+
+Then(
+    "the department should be successfully created",
+    async function () {
+        const successStatusText = await departmentPage.getPopupHeaderText();
+        console.log(successStatusText);
+
+        assert.equal(
+            successStatusText.contains("Success"),
+            true,
+            "Success message is not displayed"
+        );
+    }
+);

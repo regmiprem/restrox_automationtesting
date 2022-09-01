@@ -1,6 +1,6 @@
 const util = require("util");
 
-class DashboardPage {
+class MainPage {
     constructor() {
         this.overflowMenuSelector = "#overflow";
         this.menuSelectorUsingName =
@@ -24,4 +24,4 @@ class DashboardPage {
     }
 }
 
-module.exports = DashboardPage;
+module.exports = MainPage;
