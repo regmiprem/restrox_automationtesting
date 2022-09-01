@@ -1,0 +1,25 @@
+name: Test restrox
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v3
+          
+          - name: Setup node
+            uses: actions/setup-node@v3
+            with:
+              node-version: 14.x
+          
+          - name: Install dependencies of API
+            run: npm ci
+          
+          - name: Run Tests
+            run: |
+              npm run test:e2e
