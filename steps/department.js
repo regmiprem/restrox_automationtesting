@@ -50,7 +50,7 @@ Then(
         console.log(successStatusText);
 
         assert.equal(
-            successStatusText.contains("Success"),
+            successStatusText.includes("Success"),
             true,
             "Success message is not displayed"
         );
