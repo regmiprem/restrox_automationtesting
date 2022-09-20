@@ -9,6 +9,7 @@ class MainPage {
             availableMenu: {
                 dashboard: "Dashboard",
                 departments: "Department",
+                tableAndSpaces: "Table & Space",
             },
         };
     }

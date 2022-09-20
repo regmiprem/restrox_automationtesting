@@ -27,7 +27,7 @@ class DepartmentPage extends MainPage {
 
         this.threeDotIconSelector = ".pr-1",
         this.threeDotPopup = {
-            baseSelector: "div.show:nth-child(2)",
+            baseSelector: "div.show:nth-child(2)", 
             editBtnSelector: "div.show:nth-child(2) > button:nth-child(1)", 
             deleteBtnSelector: "div.show:nth-child(2) > button:nth-child(2)",
         }
