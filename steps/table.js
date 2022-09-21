@@ -103,3 +103,32 @@ Then('the user confirms the deletion and the table should be successfully delete
 Then('the user cancels the deletion and the table should not be deleted', async function(){
     await tablePage.clickOnCancelDeleteTableBtn();
 })
+
+When("the user clicks the Edit button", async function () { 
+    await tablePage.clickOnEditTableBtn();
+})
+
+When('the user clears and fills the form with the new data {string}, {string}, {string}, and {string}',
+    async function(editName, editSpace, editCapacity, editStatus){
+        // await tablePage.clearTableDetails();
+        await tablePage.editTableDetails(
+            editName.trim(),
+            editSpace.trim(),
+            editCapacity,
+            editStatus.trim()
+        );
+})
+
+Then('the user clicks the Update button and the table should be updated successfully', 
+    async function(){
+        await tablePage.clickOnUpdateTableBtn();
+        const successStatusText = await tablePage.getPopupHeaderText();
+        console.log(successStatusText);
+
+        assert.equal(
+            successStatusText.includes("Success!"),
+            true,
+            "Table modified succesfully."
+        );
+})
+

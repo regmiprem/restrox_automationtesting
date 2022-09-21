@@ -63,3 +63,14 @@ Feature: Table Handling
         Examples:
             | table-name |
             | table--1   |
+    
+    Scenario: Edit the table
+        When the user selects the 'Table & Space' menu
+        And the user clicks 3dot icon of the table with name '<table-name>'
+        And the user clicks the Edit button
+        And the user clears and fills the form with the new data '<edit-name>', '<edit-space>', '<edit-capacity>', and '<edit-status>'
+        Then the user clicks the Update button and the table should be updated successfully
+        Examples:
+            | table-name| edit-name | edit-space | edit-capacity | edit-status    |
+            | table--1  | table--3  | Lo         | 8             | Out of Service |
+            | table--2  | table--4  | Hall       | 4             | Open           |

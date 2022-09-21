@@ -12,7 +12,6 @@ class TablePage extends MainPage{
             spaceInputSelector: ".select__input",
             addCapacityBtnSelector: "span.rc-input-number-handler:nth-child(1)",
             capacityInputSelector: "",
-            subCapacityBtnSelector: "span.rc-input-number-handler:nth-child(2)",
             openStatusBtnSelector: ".btn-success",
             outOfServiceStatusBtnSelector: ".TableModal_button__2B3FE",
             saveTableBtnSelector: "button.me-1",
@@ -32,6 +31,8 @@ class TablePage extends MainPage{
             editBaseSelector: ".modal-dialog",
             editNameSelector: "#basicInput",
             editSpaceSelector: ".select__control",
+            editSpaceInputSelector: ".select__input",
+            editInputCapacitySelector: ".rc-input-number.rc-input-number-focused",
             editAddCapacityBtnSelector: "span.rc-input-number-handler:nth-child(1)",
             editSubCapacityBtnSelector: "span.rc-input-number-handler:nth-child(2)",
             editOpenStatusBtnSelector: "button.TableModal_button__3PVes:nth-child(1)",
@@ -107,6 +108,48 @@ class TablePage extends MainPage{
         await page.locator(this.threeDotPopup.editTableBtnSelector).click();
     }
 
+    // async clearTableDetails(){
+    //     await page.waitForSelector(this.threeDotPopup.editTablePopup.editBaseSelector);
+
+               
+
+    //     await page.locator(this.threeDotPopup.editTablePopup.editInputCapacitySelector).click();
+    //     let j = parseInt(await page.locator(this.threeDotPopup.editTablePopup.editInputCapacitySelector).innerText());
+    //     for (let i = j; i >= 0; i--){
+    //         await page.locator(this.threeDotPopup.editTablePopup.editSubCapacityBtnSelector).click();
+    //     }     
+    // }
+
+    async editTableDetails(editName, editSpace, editCapacity, editStatus){
+        await page.waitForSelector(this.threeDotPopup.editTablePopup.editBaseSelector);
+        await page.locator(this.threeDotPopup.editTablePopup.editNameSelector).click();
+        await page.keyboard.press("Control+A");
+        await page.keyboard.press("Backspace");
+        await page.fill(
+            this.threeDotPopup.editTablePopup.editNameSelector,
+            editName
+        )
+        await page.locator(this.threeDotPopup.editTablePopup.editSpaceSelector).click();
+        await page.locator( this.threeDotPopup.editTablePopup.editSpaceInputSelector).fill(editSpace);
+        await page.keyboard.press("Enter");
+        let context = parseInt(await page.locator(this.threeDotPopup.editTablePopup.editInputCapacitySelector).innerText());
+        console.log(context);
+        await page.keyboard.press("Control+A");
+        await page.keyboard.press("Backspace");
+       
+        for (let i = 0; i < parseInt(editCapacity) ; i--) {
+            await page.locator(
+                this.threeDotPopup.editTablePopup.editAddCapacityBtnSelector
+            ).click();
+        }
+        if (editStatus == "Open") {
+            await page.locator(this.threeDotPopup.editTablePopup.editOpenStatusBtnSelector).click();
+        } else {
+            await page.locator(this.threeDotPopup.editTablePopup.editOutOfServiceStatusBtnSelector).click();
+        }
+    }
+
+
     async clickOnDeleteTableBtn(){
         await page.waitForSelector(this.threeDotPopup.baseSelector);
         await page.locator(this.threeDotPopup.deleteTableBtnSelector).click();
@@ -131,7 +174,22 @@ class TablePage extends MainPage{
         )
         .click();
     }
-    
+
+    async clickOnUpdateTableBtn(){
+        await page.waitForSelector(this.threeDotPopup.editTablePopup.editBaseSelector);
+        await page.locator(this.threeDotPopup.editTablePopup.editUpdateBtnSelector).click();
+    }
+
+    async clickOnCancelUpdateTableBtn(){
+        await page.waitForSelector(this.threeDotPopup.editTablePopup.editBaseSelector);
+        await page.locator(this.threeDotPopup.editTablePopup.editCancelBtnSelector).click();
+    }
+
+    async clickOnCloseUpdateTableBtn(){
+        await page.waitForSelector(this.threeDotPopup.editTablePopup.editBaseSelector);
+        await page.locator(this.threeDotPopup.editTablePopup.editCloseBtnSelector).click();
+    }
+
 
     /**
      * Function to get the header message of popup that appears after clicking on save button

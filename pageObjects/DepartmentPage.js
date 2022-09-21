@@ -22,7 +22,7 @@ class DepartmentPage extends MainPage {
             saveBtnSelector: "//button[contains(text(), 'Save Department')]",
             closeBtnSelector: ".btn-close",
             cancelBtnSelector: "//button[contains(text(), 'Cancel')]",
-            alertMessageSelector: "small.mr-50",
+            alertMessageSelector: "small.mr-50", 
         };
 
         this.threeDotIconSelector = ".pr-1",
