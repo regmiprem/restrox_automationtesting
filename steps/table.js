@@ -108,13 +108,13 @@ When("the user clicks the Edit button", async function () {
     await tablePage.clickOnEditTableBtn();
 })
 
-When('the user clears and fills the form with the new data {string}, {string}, {string}, and {string}',
-    async function(editName, editSpace, editCapacity, editStatus){
+When('the user clears and fills the form with the new data {string}, {string}, and {string}',
+    async function(editName, editSpace, editStatus){
         // await tablePage.clearTableDetails();
         await tablePage.editTableDetails(
             editName.trim(),
             editSpace.trim(),
-            editCapacity,
+            
             editStatus.trim()
         );
 })
@@ -132,3 +132,67 @@ Then('the user clicks the Update button and the table should be updated successf
         );
 })
 
+Then('the user clicks the Cancel button and the table should not be updated', async function(){
+    await tablePage.clickOnCancelUpdateTableBtn();
+})
+
+Then('the user clicks the Close button and the table should not be updated', async function(){
+    await tablePage.clickOnCloseUpdateTableBtn();
+})
+
+When('the user clicks QR Icon of the table with name {string}', async function(tableName){
+    await tablePage.clickOnQRIcon(tableName);
+})
+
+Then('the user clicks the Download Icon and should be downloaded successfully', async function(){
+    await tablePage.clickOnQRDownloadIcon();
+})
+
+Then('the user clicks the Print Icon and should be printed successfully', async function(){
+    await tablePage.clickOnQRPrintIcon();
+})
+
+Then('the user clicks the Download All QRs button and should be downloaded successfully', async function(){
+    await tablePage.clickOnDownloadQRsBtn();
+})
+
+When('the user clicks the Request QR Code button', async function(){
+    await tablePage.clickOnRequestQRCodeBtn();
+})
+
+When('the user clicks Yes, Confirm button to Confirm', async function(){
+    await tablePage.clickOnRequestConfirmQRCodeBtn();
+})
+
+Then('the request should be successfully sent', async function(){
+    const successStatusText = await tablePage.getPopupHeaderText();
+    console.log(successStatusText);
+
+    assert.equal(
+        successStatusText.includes("Success!"),
+        true,
+        "Successfully sent"
+    );
+})
+
+Then('the user clicks Cancel button to Cancel and the request shouldnot be sent'
+    , async function(){
+        await tablePage.clickOnRequestCancelQRCodeBtn();
+})
+
+When('the user fills the search form with {string}', 
+    async function(searchKeyword){
+        await tablePage.fillSearchForm(searchKeyword);
+    }
+)
+
+Then('the table with name {string} should appear containing {string}', async function(tableName, searchKeyword){
+    const searchResult = await tablePage.getSearchResult(tableName);
+    console.log(searchResult);
+
+    if(searchResult.includes(searchKeyword)){
+        console.log("Search result testing passed.")
+    }else{
+        console.log("Search result testing failed.")
+    }
+})

@@ -32,7 +32,7 @@ class TablePage extends MainPage{
             editNameSelector: "#basicInput",
             editSpaceSelector: ".select__control",
             editSpaceInputSelector: ".select__input",
-            editInputCapacitySelector: ".rc-input-number.rc-input-number-focused",
+            editInputCapacitySelector: ".rc-input-number-handler-wrap",
             editAddCapacityBtnSelector: "span.rc-input-number-handler:nth-child(1)",
             editSubCapacityBtnSelector: "span.rc-input-number-handler:nth-child(2)",
             editOpenStatusBtnSelector: "button.TableModal_button__3PVes:nth-child(1)",
@@ -47,6 +47,26 @@ class TablePage extends MainPage{
             deleteConfirmBtnSelector: ".swal2-confirm",
             deleteCancelBtnSelector: ".swal2-cancel",
         }
+
+        this.qrIconSelector = "#cell-5-0 > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)",
+        this.qrPopup = {
+            qrBaseSelector: "div.show:nth-child(2) > div:nth-child(1)",
+            qrDownloadIconSelector: "div.show:nth-child(2) > div:nth-child(1) > div:nth-child(2) > svg:nth-child(1)",
+            qrPrintIconSelector: "div.show:nth-child(2) > div:nth-child(1) > div:nth-child(2) > svg:nth-child(2)",
+        }
+        
+        this.downloadQRsSelector = "button.ms-2:nth-child(5) > span:nth-child(1)",
+        this.requestQRCodeSelector = "button.ms-2:nth-child(3) > span:nth-child(1)",
+        this.requestQRCodePopup = {
+            requestBaseSelector: ".swal2-popup",
+            requestConfirmSelector: ".swal2-confirm",
+            requestCancelSelector: ".swal2-cancel"
+        }
+
+        this.searchInputSelector = "#search-invoice",
+        this.searchedDataSelector = ".user-info.text-truncate.ml-1"
+                                   //#cell-1-21 > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1)
+
 
         this.popupMessage = {
             tostifyHeaderSelector: "#root > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)",
@@ -120,7 +140,7 @@ class TablePage extends MainPage{
     //     }     
     // }
 
-    async editTableDetails(editName, editSpace, editCapacity, editStatus){
+    async editTableDetails(editName, editSpace, editStatus){
         await page.waitForSelector(this.threeDotPopup.editTablePopup.editBaseSelector);
         await page.locator(this.threeDotPopup.editTablePopup.editNameSelector).click();
         await page.keyboard.press("Control+A");
@@ -132,16 +152,10 @@ class TablePage extends MainPage{
         await page.locator(this.threeDotPopup.editTablePopup.editSpaceSelector).click();
         await page.locator( this.threeDotPopup.editTablePopup.editSpaceInputSelector).fill(editSpace);
         await page.keyboard.press("Enter");
-        let context = parseInt(await page.locator(this.threeDotPopup.editTablePopup.editInputCapacitySelector).innerText());
-        console.log(context);
-        await page.keyboard.press("Control+A");
-        await page.keyboard.press("Backspace");
-       
-        for (let i = 0; i < parseInt(editCapacity) ; i--) {
-            await page.locator(
-                this.threeDotPopup.editTablePopup.editAddCapacityBtnSelector
-            ).click();
-        }
+
+        //Couldn't write code to edit the Capacity according to the example. So, I left it for this time, will visit it after 
+        //writing the code for the other test cases. 
+
         if (editStatus == "Open") {
             await page.locator(this.threeDotPopup.editTablePopup.editOpenStatusBtnSelector).click();
         } else {
@@ -188,6 +202,52 @@ class TablePage extends MainPage{
     async clickOnCloseUpdateTableBtn(){
         await page.waitForSelector(this.threeDotPopup.editTablePopup.editBaseSelector);
         await page.locator(this.threeDotPopup.editTablePopup.editCloseBtnSelector).click();
+    }
+
+    async clickOnQRIcon(tableName){
+        await page.waitForSelector(this.qrIconSelector);
+        await page.locator(this.qrIconSelector, tableName).click();
+    }
+
+    async clickOnQRDownloadIcon(){
+        await page.waitForSelector(this.qrPopup.qrDownloadIconSelector);
+        await page.locator(this.qrPopup.qrDownloadIconSelector).click();
+    }
+
+    async clickOnQRPrintIcon(){
+        await page.waitForSelector(this.qrPopup.qrPrintIconSelector);
+        await page.locator(this.qrPopup.qrPrintIconSelector).click();
+    }
+
+    async clickOnDownloadQRsBtn(){
+        await page.waitForSelector(this.downloadQRsSelector);
+        await page.locator(this.downloadQRsSelector).click();
+    }
+
+    async clickOnRequestQRCodeBtn(){
+        await page.waitForSelector(this.requestQRCodeSelector);
+        await page.locator(this.requestQRCodeSelector).click();
+    }
+
+    async clickOnRequestConfirmQRCodeBtn(){
+        await page.waitForSelector(this.requestQRCodePopup.requestBaseSelector);
+        await page.locator(this.requestQRCodePopup.requestConfirmSelector).click();
+    }
+
+    async clickOnRequestCancelQRCodeBtn(){
+        await page.waitForSelector(this.requestQRCodePopup.requestBaseSelector);
+        await page.locator(this.requestQRCodePopup.requestCancelSelector).click();
+    }
+
+    async fillSearchForm(searchKeyword){
+        await page.waitForSelector(this.searchInputSelector);   
+        await page.locator(this.searchInputSelector).click(); 
+        await page.fill(this.searchInputSelector, searchKeyword);
+    }
+
+    async getSearchResult(tableName){
+        await page.waitForSelector(this.searchedDataSelector);
+        await page.locator(this.searchedDataSelector, tableName);
     }
 
 
